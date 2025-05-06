@@ -5,7 +5,7 @@ class AppColors {
   static const inputFill = Colors.black;
   static const inputText = Colors.white;
   static const labelText = Colors.white;
-  static const button = Color(0xFF7CF26A); // GreenAccent
+  static const button = Colors.green; // GreenAccent
   static const buttonText = Colors.black;
   static const highlightText = Color(0xFF7CF26A);
 }

@@ -31,11 +31,11 @@ class TournamentScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => TournamentDetailScreen(
-                      equipos: data.mockTeams,
-                      grupos: {'A': data.groupA, 'B': data.groupB},
-                      partidosPorJornada: data.jornadasMap,
-                      finales: data.mockKnockoutMatches,
-                      role: role, // 👈 Se pasa el rol
+                      teamsList: data.mockTeams,
+                      groupList: {'A': data.groupA, 'B': data.groupB},
+                      matchList: data.jornadasMap,
+                      finalMatches: data.mockKnockoutMatches,
+                      role: role, 
                     ),
                   ),
                 );
