@@ -46,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: const Text(
-          'FOTUDEM - Login',
+          'FUTUDEM - Login',
           style: TextStyle(color: AppColors.button),
         ),
       ),

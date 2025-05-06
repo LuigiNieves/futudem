@@ -3,16 +3,16 @@ import 'package:futudem_app/screens/login/login_screen.dart';
 import 'package:futudem_app/theme/app_colors.dart';
 
 void main() {
-  runApp(const FotudemApp());
+  runApp(const FutudemApp());
 }
 
-class FotudemApp extends StatelessWidget {
-  const FotudemApp({super.key});
+class FutudemApp extends StatelessWidget {
+  const FutudemApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FOTUDEM',
+      title: 'FUTUDEM',
       debugShowCheckedModeBanner: false,
 
       theme: mytheme,
