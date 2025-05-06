@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:futudem_app/screens/players_screen.dart';
 import 'package:futudem_app/screens/request_screen.dart';
 import 'package:futudem_app/screens/team_screen.dart';
 import 'package:futudem_app/screens/tournament/tournament_screen.dart';
@@ -37,11 +38,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ];
     } else if (widget.role == 'capitan') {
       _tabs = const [
-        Tab(text: 'Mis Equipos'),
+        Tab(text: 'Mis Jugadores'),
         Tab(text: 'Torneos'),
       ];
       _tabViews =  [
-        TeamScreen(), 
+        MyPlayersTab(), 
         TournamentScreen(role: widget.role),
       ];
     } else {
@@ -59,8 +60,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FOTUDEM - ${widget.role.toUpperCase()}'),
+      
+        title: Text('FUTUDEM - ${widget.role.toUpperCase()}'),
         bottom: TabBar(
+          
           controller: _tabController,
           tabs: _tabs,
         ),

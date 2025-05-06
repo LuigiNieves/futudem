@@ -1,3 +1,4 @@
+import 'package:futudem_app/models/player.dart';
 import 'package:futudem_app/models/team.dart';
 import 'package:futudem_app/models/match.dart';
 
@@ -127,3 +128,37 @@ final Map<String, List<Match>> jornadasMap = {
     Match(homeTeam: groupB[0], awayTeam: groupB[6]),
   ],
 };
+
+final List<Player> playersList = [
+  Player(
+    id: 'p1',
+    name: 'Carlos Pérez',
+    career: 'Ingeniería de Sistemas',
+    isCaptain: true,
+    isApproved:true
+  ),
+  Player(
+    id: 'p2',
+    name: 'Ana Gómez',
+
+    career: 'Medicina',
+    isApproved:true
+  ),
+  Player(
+    id: 'p3',
+    name: 'Luis Torres',
+    career: 'Arquitectura',
+    isApproved:true
+  ),
+  Player(
+    id: 'p4',
+    name: 'María Rodríguez',
+    career: 'Psicología',
+    isApproved:true
+  ),
+  Player(
+    id: 'p5',
+    name: 'Juan Díaz',
+    career: 'Administración de Empresas',
+  ),
+];
