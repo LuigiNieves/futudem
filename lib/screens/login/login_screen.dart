@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   labelText: 'Nombre de usuario',
                   labelStyle: TextStyle(color: AppColors.labelText),
                   focusedBorder: OutlineInputBorder(
-                    // Color de la barra cuando está enfocado
+                  
                   ),
                 ),
               ),

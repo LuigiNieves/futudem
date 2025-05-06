@@ -16,11 +16,10 @@ class _CreateTournamentScreenState extends State<CreateTournamentScreen> {
     final fecha = _fechaController.text;
 
     if (nombre.isNotEmpty && fecha.isNotEmpty) {
-      // Aquí deberías agregar el nuevo torneo a tu lista de torneos o manejarlo con un provider / state management.
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Torneo "$nombre" creado exitosamente')),
       );
-      Navigator.pop(context); // Volver a la lista
+      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor completa todos los campos')),

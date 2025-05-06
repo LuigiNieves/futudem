@@ -54,7 +54,6 @@ class _RequestScreenState extends State<RequestScreen> {
                         ),
                       ],
                     ),
-                  // Mostrar la razón de rechazo si existe
                   if (rejectionReasons[player.id]?.isNotEmpty ?? false)
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
