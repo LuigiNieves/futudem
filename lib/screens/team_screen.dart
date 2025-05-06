@@ -15,7 +15,7 @@ class _TeamScreenState extends State<TeamScreen> {
   @override
   void initState() {
     super.initState();
-    teams = List.from(data.mockTeams); // Copia local para poder modificar
+    teams = List.from(data.mockTeams); 
   }
 
   void _addTeam() async {
@@ -26,7 +26,6 @@ class _TeamScreenState extends State<TeamScreen> {
           Team(
             name: result['name']!,
             flagUrl: 'https://cdn-icons-png.flaticon.com/512/197/197484.png',
-            // Puedes agregar más campos si tu modelo lo permite
           ),
         );
       });

@@ -40,7 +40,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); // Cerrar el cuadro de diálogo
+            Navigator.of(context).pop(); 
           },
           child: const Text('Cancelar'),
         ),
@@ -62,7 +62,7 @@ class _PlayerDialogState extends State<PlayerDialog> {
               career: _careerController.text,
               isApproved: false,
             );
-            Navigator.of(context).pop(newPlayer); // Pasar el nuevo jugador
+            Navigator.of(context).pop(newPlayer); 
           },
           child: const Text('Aceptar'),
         ),

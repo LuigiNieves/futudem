@@ -13,7 +13,6 @@ class MyPlayersTab extends StatefulWidget {
 class _MyPlayersTabState extends State<MyPlayersTab> {
   List<Player> players = playersList;
       
-  // Método para agregar un jugador a la lista
   void _addPlayer(Player player) {
     setState(() {
       players.add(player);
@@ -43,11 +42,11 @@ class _MyPlayersTabState extends State<MyPlayersTab> {
           final newPlayer = await showDialog<Player>(
             context: context,
             builder: (BuildContext context) {
-              return const PlayerDialog(); // Cuadro de diálogo
+              return const PlayerDialog(); 
             },
           );
           if (newPlayer != null) {
-            _addPlayer(newPlayer); // Agregar jugador a la lista
+            _addPlayer(newPlayer);
           }
         },
         tooltip: 'Agregar jugador',

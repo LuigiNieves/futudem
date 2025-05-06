@@ -42,10 +42,7 @@ class _MatchDialogState extends State<MatchDialog> {
     final String homeText = _homeGoalsController.text.trim();
     final String awayText = _awayGoalsController.text.trim();
 
-    if (homeText.isEmpty || awayText.isEmpty) {
-      _mostrarError('Ambos campos de goles deben estar llenos.');
-      return;
-    }
+   
 
     final int? homeGoals = int.tryParse(homeText);
     final int? awayGoals = int.tryParse(awayText);
