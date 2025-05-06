@@ -60,7 +60,6 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: _usernameController,
                 style: TextStyle(color: AppColors.inputText),
-                obscureText: true,
                 cursorColor: AppColors.inputText,
 
                 decoration: const InputDecoration(
