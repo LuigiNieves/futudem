@@ -40,7 +40,7 @@ class _MatchTabState extends State<MatchTab> {
                                     ),
                                     const SizedBox(width: 8),
                                     Image.network(
-                                      match.homeTeam.flagUrl,
+                                      match.homeTeam.shield,
                                       width: 32,
                                       height: 20,
                                       fit: BoxFit.cover,
@@ -54,7 +54,7 @@ class _MatchTabState extends State<MatchTab> {
                                     ),
                                     const SizedBox(width: 8),
                                     Image.network(
-                                      match.awayTeam.flagUrl,
+                                      match.awayTeam.shield,
                                       width: 32,
                                       height: 20,
                                       fit: BoxFit.cover,

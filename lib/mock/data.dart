@@ -3,50 +3,51 @@ import 'package:futudem_app/models/team.dart';
 import 'package:futudem_app/models/match.dart';
 
 final List<Map<String, String>> usuariosRegistrados = [
+  {'user': '1', 'pass': '1', 'rol': 'admin'},
   {'user': 'admin1', 'pass': 'admin123', 'rol': 'admin'},
   {'user': 'capitan1', 'pass': 'capitan123', 'rol': 'capitan'},
   {'user': 'capitan2', 'pass': 'futbol2024', 'rol': 'capitan'},
 ];
 
 final List<Team> mockTeams = [
-  Team(name: 'Real Madrid', flagUrl: 'https://flagcdn.com/w20/es.png'),
-  Team(name: 'Barcelona', flagUrl: 'https://flagcdn.com/w20/es.jpg'),
-  Team(name: 'Manchester City', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Liverpool', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Bayern Munich', flagUrl: 'https://flagcdn.com/w20/de.jpg'),
-  Team(name: 'PSG', flagUrl: 'https://flagcdn.com/w20/fr.jpg'),
-  Team(name: 'Juventus', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Chelsea', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Inter Milan', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Arsenal', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Atletico Madrid', flagUrl: 'https://flagcdn.com/w20/es.jpg'),
-  Team(name: 'AC Milan', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Dortmund', flagUrl: 'https://flagcdn.com/w20/de.jpg'),
-  Team(name: 'Napoli', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Tottenham', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Ajax', flagUrl: 'https://flagcdn.com/w20/nl.jpg'),
+  Team(name: 'Real Madrid', shield: 'https://flagcdn.com/w20/es.png'),
+  Team(name: 'Barcelona', shield: 'https://flagcdn.com/w20/es.jpg'),
+  Team(name: 'Manchester City', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Liverpool', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Bayern Munich', shield: 'https://flagcdn.com/w20/de.jpg'),
+  Team(name: 'PSG', shield: 'https://flagcdn.com/w20/fr.jpg'),
+  Team(name: 'Juventus', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Chelsea', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Inter Milan', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Arsenal', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Atletico Madrid', shield: 'https://flagcdn.com/w20/es.jpg'),
+  Team(name: 'AC Milan', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Dortmund', shield: 'https://flagcdn.com/w20/de.jpg'),
+  Team(name: 'Napoli', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Tottenham', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Ajax', shield: 'https://flagcdn.com/w20/nl.jpg'),
 ];
 
 final List<Team> groupA = [
-  Team(name: 'Real Madrid', flagUrl: 'https://flagcdn.com/w20/es.png'),
-  Team(name: 'Barcelona', flagUrl: 'https://flagcdn.com/w20/es.jpg'),
-  Team(name: 'Manchester City', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Liverpool', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Bayern Munich', flagUrl: 'https://flagcdn.com/w20/de.jpg'),
-  Team(name: 'PSG', flagUrl: 'https://flagcdn.com/w20/fr.jpg'),
-  Team(name: 'Juventus', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Chelsea', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Real Madrid', shield: 'https://flagcdn.com/w20/es.png'),
+  Team(name: 'Barcelona', shield: 'https://flagcdn.com/w20/es.jpg'),
+  Team(name: 'Manchester City', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Liverpool', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Bayern Munich', shield: 'https://flagcdn.com/w20/de.jpg'),
+  Team(name: 'PSG', shield: 'https://flagcdn.com/w20/fr.jpg'),
+  Team(name: 'Juventus', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Chelsea', shield: 'https://flagcdn.com/w20/gb.jpg'),
 ];
 
 final List<Team> groupB = [
-  Team(name: 'Inter Milan', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Arsenal', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Atletico Madrid', flagUrl: 'https://flagcdn.com/w20/es.jpg'),
-  Team(name: 'AC Milan', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Dortmund', flagUrl: 'https://flagcdn.com/w20/de.jpg'),
-  Team(name: 'Napoli', flagUrl: 'https://flagcdn.com/w20/it.jpg'),
-  Team(name: 'Tottenham', flagUrl: 'https://flagcdn.com/w20/gb.jpg'),
-  Team(name: 'Ajax', flagUrl: 'https://flagcdn.com/w20/nl.jpg'),
+  Team(name: 'Inter Milan', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Arsenal', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Atletico Madrid', shield: 'https://flagcdn.com/w20/es.jpg'),
+  Team(name: 'AC Milan', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Dortmund', shield: 'https://flagcdn.com/w20/de.jpg'),
+  Team(name: 'Napoli', shield: 'https://flagcdn.com/w20/it.jpg'),
+  Team(name: 'Tottenham', shield: 'https://flagcdn.com/w20/gb.jpg'),
+  Team(name: 'Ajax', shield: 'https://flagcdn.com/w20/nl.jpg'),
 ];
 
 final List<Match> mockKnockoutMatches = [

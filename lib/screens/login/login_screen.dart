@@ -46,48 +46,60 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: const Text(
-          'FUTUDEM - Login',
+          'FUTUDEM - LogiN',
           style: TextStyle(color: AppColors.button),
         ),
       ),
       backgroundColor: AppColors.background,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _usernameController,
-                style: TextStyle(color: AppColors.inputText),
-                cursorColor: AppColors.inputText,
-
-                decoration: const InputDecoration(
-                  labelText: 'Nombre de usuario',
-                  labelStyle: TextStyle(color: AppColors.labelText),
-                  focusedBorder: OutlineInputBorder(
-                  
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Image.asset(
+                    'assets/logo.png',
+                    width: 250,
+                    height: 250,
                   ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    
+                    TextField(
+                      controller: _usernameController,
+                      style: TextStyle(color: AppColors.inputText),
+                      cursorColor: AppColors.inputText,
+                
+                      decoration: const InputDecoration(
+                        labelText: 'Nombre de usuario',
+                        labelStyle: TextStyle(color: AppColors.labelText),
+                        focusedBorder: OutlineInputBorder(
+                        
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Contraseña',
+                        labelStyle: TextStyle(color: AppColors.labelText),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _login,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.button,
+                      ),
+                      child: const Text('Iniciar sesión'),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Contraseña',
-                  labelStyle: TextStyle(color: AppColors.labelText),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.button,
-                ),
-                child: const Text('Iniciar sesión'),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

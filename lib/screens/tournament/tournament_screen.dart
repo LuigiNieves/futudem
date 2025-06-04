@@ -1,32 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:futudem_app/mock/data.dart' as data;
+import 'package:futudem_app/providers/selected_tournament_provider.dart';
+import 'package:futudem_app/providers/tournament_list_provider.dart';
 import 'package:futudem_app/screens/tournament/create_tournament_screen.dart';
 import 'package:futudem_app/screens/tournament/tournament_detail_screen.dart';
 
-class TournamentScreen extends StatelessWidget {
+class TournamentScreen extends ConsumerWidget {
   final String role;
 
   const TournamentScreen({super.key, required this.role});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, String>> torneos = [
-      {'nombre': 'Torneo Apertura', 'fecha': '01/05/2025'},
-      {'nombre': 'Torneo Clausura', 'fecha': '01/09/2025'},
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tournamentState = ref.watch(tournamentControllerProvider);
+
+    if (tournamentState.loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (tournamentState.error.isNotEmpty) {
+      return Center(child: Text('Error: ${tournamentState.error}'));
+    }
+
+    final tournaments = tournamentState.data;
+    print('objects: $tournaments');
 
     return Scaffold(
       appBar: AppBar(title: const Text('Torneos')),
       body: ListView.builder(
-        itemCount: torneos.length,
+        itemCount: tournaments.length,
         itemBuilder: (context, index) {
-          final torneo = torneos[index];
+          final tournament = tournaments[index];
           return Card(
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
-              title: Text(torneo['nombre']!),
-              subtitle: Text('Fecha de inicio: ${torneo['fecha']}'),
+              title: Text(tournament.name),
+              subtitle: Text('Fecha de inicio: ${tournament.startDate}'),
               onTap: () {
+                ref.read(selectedTournamentIdProvider.notifier).state = tournament.id;
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(

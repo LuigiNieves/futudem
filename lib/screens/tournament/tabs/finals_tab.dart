@@ -60,11 +60,11 @@ class _FinalsTabState extends State<FinalsTab> {
           child: Text(match.homeTeam.name, textAlign: TextAlign.end),
         ),
         const SizedBox(width: 8),
-        Image.network(match.homeTeam.flagUrl, width: 32, height: 20, fit: BoxFit.cover),
+        Image.network(match.homeTeam.shield, width: 32, height: 20, fit: BoxFit.cover),
         const SizedBox(width: 8),
         const Text("vs"),
         const SizedBox(width: 8),
-        Image.network(match.awayTeam.flagUrl, width: 32, height: 20, fit: BoxFit.cover),
+        Image.network(match.awayTeam.shield, width: 32, height: 20, fit: BoxFit.cover),
         const SizedBox(width: 8),
         Expanded(
           child: Text(match.awayTeam.name, overflow: TextOverflow.ellipsis),
@@ -127,13 +127,13 @@ class _FinalsTabState extends State<FinalsTab> {
           ),
           const SizedBox(width: 8),
           home != null
-              ? Image.network(home.flagUrl, width: 32, height: 20, fit: BoxFit.cover)
+              ? Image.network(home.shield, width: 32, height: 20, fit: BoxFit.cover)
               : const Icon(Icons.help_outline, size: 30),
           const SizedBox(width: 8),
           const Text("vs"),
           const SizedBox(width: 8),
           away != null
-              ? Image.network(away.flagUrl, width: 32, height: 20, fit: BoxFit.cover)
+              ? Image.network(away.shield, width: 32, height: 20, fit: BoxFit.cover)
               : const Icon(Icons.help_outline, size: 30),
           const SizedBox(width: 8),
           Expanded(
@@ -178,13 +178,13 @@ class _FinalsTabState extends State<FinalsTab> {
           ),
           const SizedBox(width: 8),
           finalHome != null
-              ? Image.network(finalHome!.flagUrl, width: 32, height: 20, fit: BoxFit.cover)
+              ? Image.network(finalHome!.shield, width: 32, height: 20, fit: BoxFit.cover)
               : const SizedBox(width: 32, height: 20),
           const SizedBox(width: 8),
           const Text("vs"),
           const SizedBox(width: 8),
           finalAway != null
-              ? Image.network(finalAway!.flagUrl, width: 32, height: 20, fit: BoxFit.cover)
+              ? Image.network(finalAway!.shield, width: 32, height: 20, fit: BoxFit.cover)
               : const SizedBox(width: 32, height: 20),
           const SizedBox(width: 8),
           Expanded(

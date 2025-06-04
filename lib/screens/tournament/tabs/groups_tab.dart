@@ -77,7 +77,7 @@ class GroupsTab extends StatelessWidget {
                         child: Row(
                           children: [
                             Image.network(
-                              equipo.flagUrl,
+                              equipo.shield,
                               width: 24,
                               height: 16,
                             ),
