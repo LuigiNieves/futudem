@@ -11,10 +11,12 @@ class PlayerDialog extends StatefulWidget {
 
 class _PlayerDialogState extends State<PlayerDialog> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _idController = TextEditingController();
-  
+  final TextEditingController _nameController =
+      TextEditingController();
+  final TextEditingController _lastNameController =
+      TextEditingController();
+  final TextEditingController _idController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,36 +30,44 @@ class _PlayerDialogState extends State<PlayerDialog> {
             TextFormField(
               controller: _idController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Cedula'),
+              decoration: const InputDecoration(
+                labelText: 'Cedula',
+              ),
               validator: validarCedula,
             ),
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Nombre'),
-              validator: validarNombre,     
+              decoration: const InputDecoration(
+                labelText: 'Nombre',
+              ),
+              validator: validarNombre,
             ),
             TextFormField(
               controller: _lastNameController,
-              decoration: const InputDecoration(labelText: 'Apellido'),
+              decoration: const InputDecoration(
+                labelText: 'Apellido',
+              ),
               validator: validarApellido,
             ),
-
           ],
         ),
       ),
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop(); 
+            Navigator.of(context).pop();
           },
           child: const Text('Cancelar'),
         ),
         TextButton(
           onPressed: () {
-            
             if (!_formKey.currentState!.validate()) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Por favor, complete todos los campos')),
+                const SnackBar(
+                  content: Text(
+                    'Por favor, complete todos los campos',
+                  ),
+                ),
               );
               return;
             }
@@ -66,8 +76,10 @@ class _PlayerDialogState extends State<PlayerDialog> {
               name: _nameController.text,
               lastName: _lastNameController.text,
             );
-            
-            Navigator.of(context).pop(newPlayer); 
+
+            // TODO: validar si el jugador con esa celuda ya existe
+
+            Navigator.of(context).pop(newPlayer);
           },
           child: const Text('Aceptar'),
         ),
