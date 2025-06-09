@@ -21,7 +21,7 @@ class _TeamScreenState extends ConsumerState<TeamScreen> {
       setState(() {
         teams.add(
           Team(
-            id: DateTime.now().millisecondsSinceEpoch, // Simulación de ID
+            id: DateTime.now().millisecondsSinceEpoch, 
             name: result['name']!,
             shield: 'https://cdn-icons-png.flaticon.com/512/197/197484.png',
           ),

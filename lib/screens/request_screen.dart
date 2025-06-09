@@ -3,7 +3,6 @@ import 'package:futudem_app/mock/data.dart';
 import 'package:futudem_app/models/player.dart';  // Asegúrate de importar el modelo Player
 
 class RequestScreen extends StatefulWidget {
-  // Agregamos el parámetro key en el constructor
   const RequestScreen({super.key});
 
   @override

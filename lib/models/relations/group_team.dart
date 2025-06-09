@@ -1,4 +1,3 @@
-// group_team.dart (modelo para la tabla intermedia)
 class GroupTeam {
   final int groupId;
   final int teamId;

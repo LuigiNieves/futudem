@@ -18,8 +18,8 @@ class TournamentRepositoryImpl implements TournamentRepository {
     final tournament = Tournament(
       id: id,
       name: name,
-      startDate: '2023-10-01', // Example date, replace with actual logic
-      isActive: true, // Example status, replace with actual logic
+      startDate: '2023-10-01', // 
+      isActive: true, 
     );
     await _datasource.updateTournament(tournament);
   }

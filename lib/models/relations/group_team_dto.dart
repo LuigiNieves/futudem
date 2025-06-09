@@ -1,4 +1,3 @@
-// group_team_dto.dart
 
 import 'package:futudem_app/models/group.dart';
 import 'package:futudem_app/models/team.dart';

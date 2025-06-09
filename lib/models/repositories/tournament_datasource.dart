@@ -62,7 +62,7 @@ class TournamentRemoteDatasource {
     try {
       final List<dynamic> data = await _client
           .from('tournament_team')
-          .select('team(id, name, shield)') // join implicit with team table
+          .select('team(id, name, shield)') 
           .eq('tournament_id', tournamentId);
       return data.map((item) => Team.fromJson(item['team'])).toList();
     } catch (e) {

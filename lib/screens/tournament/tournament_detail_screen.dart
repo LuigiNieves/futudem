@@ -14,8 +14,7 @@ class TournamentDetailScreen
     extends ConsumerStatefulWidget {
   final List<Team> teamsList;
   final Map<String, List<dynamic>> groupList;
-  // final Map<String, List<Match>> matchList;
-  // final List<Match> finalMatches;
+ 
   final String role;
 
   const TournamentDetailScreen({
@@ -45,7 +44,6 @@ class _TournamentDetailScreenState
     );
 
     if (tournamentId != null) {
-      // Llamamos al fetch en una microtarea para evitar errores del ciclo de vida
       Future.microtask(() {
         ref
             .read(groupControllerProvider.notifier)
