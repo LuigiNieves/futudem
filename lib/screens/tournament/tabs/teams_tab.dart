@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:futudem_app/models/team.dart';
-import 'package:futudem_app/models/tournament.dart';
 import 'package:futudem_app/providers/selected_tournament_provider.dart';
 import 'package:futudem_app/providers/tournament_orchestrator_provider.dart';
 import 'package:futudem_app/providers/tournament_team_provider.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:futudem_app/models/team.dart';
 import 'package:futudem_app/providers/team_provider.dart';
-import 'package:futudem_app/providers/tournament_team_provider.dart';
 
 class TeamScreen extends ConsumerStatefulWidget {
   const TeamScreen({super.key});

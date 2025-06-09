@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futudem_app/mock/data.dart';
 import 'package:futudem_app/models/player.dart';
-import 'package:futudem_app/screens/widgets/player_dialog.dart';
 
 class MyPlayersTab extends StatefulWidget {
   const MyPlayersTab({super.key});
