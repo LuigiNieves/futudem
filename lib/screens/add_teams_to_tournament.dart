@@ -4,6 +4,7 @@ import 'package:futudem_app/models/player.dart';
 import 'package:futudem_app/providers/player_provider.dart';
 import 'package:futudem_app/providers/team_provider.dart';
 import 'package:futudem_app/providers/selected_tournament_provider.dart';
+import 'package:futudem_app/providers/tournament_team_provider.dart';
 import 'package:futudem_app/screens/widgets/player_dialog.dart';
 
 class SelectTeamsScreen extends ConsumerStatefulWidget {
@@ -16,13 +17,12 @@ class SelectTeamsScreen extends ConsumerStatefulWidget {
 
 class _SelectTeamsScreenState
     extends ConsumerState<SelectTeamsScreen> {
-
   @override
   Widget build(BuildContext context) {
     final teamState = ref.watch(teamControllerProvider);
     final playerState = ref.watch(playerControllerProvider);
 
-
+     final tournamentTeamState = ref.watch(tournamentControllerProvider);
 
     final teamController = ref.read(
       teamControllerProvider.notifier,
@@ -59,14 +59,18 @@ class _SelectTeamsScreenState
       );
     }
 
+    // Filter teams that are not in tournamentTeamState.teams
+    final tournamentTeamIds = tournamentTeamState.teams.map((t) => t.id).toSet();
+    final availableTeams = teamState.teams.where((team) => !tournamentTeamIds.contains(team.id)).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Seleccionar Equipos'),
       ),
       body: ListView.builder(
-        itemCount: teamState.teams.length,
+        itemCount: availableTeams.length,
         itemBuilder: (context, index) {
-          final team = teamState.teams[index];
+          final team = availableTeams[index];
           return ListTile(
             leading: Image.network(
               team.shield,
@@ -77,35 +81,45 @@ class _SelectTeamsScreenState
             trailing: IconButton(
               icon: const Icon(Icons.add),
               onPressed: () async {
-                              final Player? captain = await showDialog<Player>(
-                                context: context,
-                                builder: (context) {
-                                  return PlayerDialog();
-                                },
-                              );
-              
-                              if (captain == null) return;
-              
-                              await ref.read(teamControllerProvider.notifier).createTeam(team);
+                final Player? captain =
+                    await showDialog<Player>(
+                      context: context,
+                      builder: (context) {
+                        return PlayerDialog();
+                      },
+                    );
 
-                              await ref.read(playerControllerProvider.notifier).createPlayer(captain);
+                if (captain == null) return;
 
-                              final createdCaptain =  ref.read(playerControllerProvider).player;
+                await ref
+                    .read(teamControllerProvider.notifier)
+                    .createTeam(team);
 
-                              final newTeam = teamState.teams.firstWhere((t) => t.name == team.name);
+                await ref
+                    .read(playerControllerProvider.notifier)
+                    .createPlayer(captain);
 
-                              await ref.read(teamControllerProvider.notifier).addTeamToTournament(
-                                tournamentId!,
-                                newTeam.id,
-                                createdCaptain.id,
-                              );
-                              
-                            },
+                final createdCaptain =
+                    ref
+                        .read(playerControllerProvider)
+                        .player;
+
+                final newTeam = teamState.teams.firstWhere(
+                  (t) => t.name == team.name,
+                );
+
+                await ref
+                    .read(teamControllerProvider.notifier)
+                    .addTeamToTournament(
+                      tournamentId!,
+                      newTeam.id,
+                      createdCaptain.id,
+                    );
+              },
             ),
           );
         },
       ),
-    
     );
   }
 }
