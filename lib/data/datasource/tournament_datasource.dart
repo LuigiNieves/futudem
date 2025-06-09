@@ -21,7 +21,7 @@ class TournamentRemoteDatasource {
       final data = await _client.from('tournament').select().eq('id', id).single();
       return Tournament.fromJson(data);
     } catch (e) {
-      throw Exception('Error fetching tournament by ID: $e');
+      throw Exception('Error fetching tournament By ID: $e');
     }
   }
 
