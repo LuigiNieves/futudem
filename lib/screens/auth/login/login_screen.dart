@@ -6,14 +6,14 @@ import 'package:futudem_app/screens/auth/provider/auth_login_validator_provider.
 import 'package:futudem_app/screens/home/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginnScreen extends ConsumerStatefulWidget {
-  const LoginnScreen({super.key});
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  ConsumerState<LoginnScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginnScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isPasswordVisible = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();

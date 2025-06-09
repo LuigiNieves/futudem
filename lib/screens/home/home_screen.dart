@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:futudem_app/screens/auth/login/login_screen.dart';
 import 'package:futudem_app/screens/players_screen.dart';
 import 'package:futudem_app/screens/request_screen.dart';
 import 'package:futudem_app/screens/team_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:futudem_app/screens/tournament/tournament_screen.dart';
-
 
 class HomeScreen extends StatefulWidget {
   final String role;
@@ -13,7 +14,8 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late List<Tab> _tabs;
   late List<Widget> _tabViews;
@@ -41,29 +43,51 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         Tab(text: 'Mis Jugadores'),
         Tab(text: 'Torneos'),
       ];
-      _tabViews =  [
-        MyPlayersTab(), 
+      _tabViews = [
+        MyPlayersTab(),
         TournamentScreen(role: widget.role),
       ];
     } else {
-      _tabs = const [
-        Tab(text: 'Torneos'),
-      ];
-      _tabViews =  [
-        TournamentScreen(role: widget.role),
-      ];
+      _tabs = const [Tab(text: 'Torneos')];
+      _tabViews = [TournamentScreen(role: widget.role)];
     }
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(
+      length: _tabs.length,
+      vsync: this,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      
-        title: Text('FUTUDEM - ${widget.role.toUpperCase()}'),
+        title: Text(
+          'FUTUDEM - ${widget.role.toUpperCase()}',
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () async {
+                final prefs =
+                    await SharedPreferences.getInstance();
+                await prefs.remove('userData');
+                WidgetsBinding.instance
+                    .addPostFrameCallback((_) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => LoginScreen(),
+                        ),
+                      );
+                    });
+              },
+            ),
+          ),
+        ],
         bottom: TabBar(
-          
           controller: _tabController,
           tabs: _tabs,
         ),

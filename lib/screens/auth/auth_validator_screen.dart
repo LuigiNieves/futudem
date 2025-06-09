@@ -6,6 +6,6 @@ class AuthValidatorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoginnScreen();
+    return LoginScreen();
   }
 }
