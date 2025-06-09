@@ -140,7 +140,7 @@ class GroupController extends StateNotifier<StateGroup> {
   state = state.copyWith(loading: true, error: '');
 
   try {
-    // 1. Traer los equipos agrupados por grupo
+    
     final groupTeamsDto = await _repository.fetchTeamsWithGroups(tournamentId);
     // Agrupar los equipos por nombre de grupo
     final Map<String, List<dynamic>> teamsGrouped = {};
@@ -149,7 +149,7 @@ class GroupController extends StateNotifier<StateGroup> {
       teamsGrouped.putIfAbsent(groupName, () => []).add(dto.team);
     }
 
-    // 2. Recorrer cada grupo y crear partidos todos contra todos
+    
     for (final entry in teamsGrouped.entries) {
       final teams = entry.value;
       
@@ -159,19 +159,19 @@ class GroupController extends StateNotifier<StateGroup> {
           final teamA = teams[i];
           final teamB = teams[j];
 
-          // Alternar local y visitante
+          
           final homeTeam = (i + j) % 2 == 0 ? teamA : teamB;
           final awayTeam = (homeTeam == teamA) ? teamB : teamA;
 
-          // Buscar el grupo_id desde el DTO
+          
           final group = groupTeamsDto.firstWhere((dto) => dto.team.id == homeTeam.id || dto.team.id == awayTeam.id).group;
 
           final matchFixture = MatchFixture(
-            journey: 'Jornada ${i + 1}-${j + 1}',
+            journey: 'Jornada ${(j + 1) - (i + 1)}',
             groupId: group.id,
             homeTeamId: homeTeam.id,
             awayTeamId: awayTeam.id,
-            matchDate: DateTime.now(), // o lógica real de fechas
+            matchDate: DateTime.now(), 
           );
 
           await _repository.createMatch(

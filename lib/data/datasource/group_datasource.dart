@@ -107,35 +107,40 @@ class GroupRemoteDatasource {
 
   // match
 
-  // Obtener partidos por grupo
-  Future<List<MatchDto>> fetchMatchesByTournament(
-    int tournamentId,
-  ) async {
-    try {
-      final List<dynamic> data = await _client
-          .from('match')
-          .select('''
-            id,
-            match_date,
-            home_score,
-            away_score,
-            group:group_id(id, name, tournament_id),
-            home_team:home_team_id(id, name, shield),
-            away_team:away_team_id(id, name, shield)
-          ''')
-          .eq('group.tournament_id', tournamentId);
+  
+ Future<List<MatchDto>> fetchMatchesByTournament(
+  int tournamentId,
+) async {
+  try {
+    final List<dynamic> data = await _client
+        .from('match')
+        .select('''
+          id,
+          match_date,
+          home_score,
+          away_score,
+          group:group_id(id, name, tournament_id),
+          home_team:home_team_id(id, name, shield),
+          away_team:away_team_id(id, name, shield)
+        ''');
 
-      print('Información de partidos: $data');
+    print('Información de partidos: $data');
 
-      return data
-          .map((item) => MatchDto.fromJson(item))
-          .toList();
-    } catch (e) {
-      throw Exception(
-        'Error fetching matches by tournament: $e',
-      );
-    }
+    // Filtrar por tournamentId en Dart
+    final filtered = data.where((item) =>
+      item['group'] != null &&
+      item['group']['tournament_id'] == tournamentId
+    ).toList();
+
+    return filtered
+        .map((item) => MatchDto.fromJson(item))
+        .toList();
+  } catch (e) {
+    throw Exception(
+      'Error fetching matches by tournament: $e',
+    );
   }
+}
 
   // Crear partido
   Future<void> createMatch(MatchFixture match) async {
