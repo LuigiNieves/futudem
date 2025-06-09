@@ -16,6 +16,20 @@ class MatchDto {
     required this.group,
   });
 
+  MatchDto copyWith({
+    MatchFixture? match,
+    Team? homeTeam,
+    Team? awayTeam,
+    Group? group,
+  }) {
+    return MatchDto(
+      match: match ?? this.match,
+      homeTeam: homeTeam ?? this.homeTeam,
+      awayTeam: awayTeam ?? this.awayTeam,
+      group: group ?? this.group,
+    );
+  }
+
   factory MatchDto.fromJson(Map<String, dynamic> json) {
     final matchJson = Map<String, dynamic>.from(json);
 
