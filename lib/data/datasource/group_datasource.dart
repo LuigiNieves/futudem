@@ -7,9 +7,8 @@ import 'package:futudem_app/models/team.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GroupRemoteDatasource {
-  
   final _client = Supabase.instance.client;
-  
+
   // Example method to fetch groups
   Future<List<Group>> fetchGroups(int tournamentId) async {
     try {
@@ -17,77 +16,101 @@ class GroupRemoteDatasource {
           .from('groups')
           .select('id, name, tournament_id')
           .eq('tournament_id', tournamentId);
-      return data.map((item) => Group.fromJson(item)).toList();
+      return data
+          .map((item) => Group.fromJson(item))
+          .toList();
     } catch (e) {
       throw Exception('Error fetching groups: $e');
     }
   }
 
   Future<List<Group>> createGroups(int tournamentId) async {
-  try {
-    final List<String> groupData = ['grupoA', 'grupoB'];
+    try {
+      final List<String> groupData = ['grupoA', 'grupoB'];
 
-    for (String groupName in groupData) {
-      await _client.from('groups').insert({
-        'name': groupName,
-        'tournament_id': tournamentId,
-      });
+      for (String groupName in groupData) {
+        await _client.from('groups').insert({
+          'name': groupName,
+          'tournament_id': tournamentId,
+        });
+      }
+
+      final response = await _client
+          .from('groups')
+          .select()
+          .eq('tournament_id', tournamentId);
+
+      return (response as List)
+          .map((json) => Group.fromJson(json))
+          .toList();
+    } catch (e) {
+      throw Exception('Error creating groups: $e');
     }
-
-    final response = await _client
-        .from('groups')
-        .select()
-        .eq('tournament_id', tournamentId);
-
-    return (response as List).map((json) => Group.fromJson(json)).toList();
-  } catch (e) {
-    throw Exception('Error creating groups: $e');
   }
-}
 
- Future<void> assignTeamsToGroups(int tournamentId, int groupId, List<Team> teams) async {
-  
-  try {
-    final List<Map<String, dynamic>> assignments = teams.map((team) {
-      return GroupTeam(
-        groupId: groupId,
-        teamId: team.id,
-      ).toJson();
-    }).toList();
+  Future<void> assignTeamsToGroups(
+    int tournamentId,
+    int groupId,
+    List<Team> teams,
+  ) async {
+    try {
+      final List<Map<String, dynamic>> assignments =
+          teams.map((team) {
+            return GroupTeam(
+              groupId: groupId,
+              teamId: team.id,
+            ).toJson();
+          }).toList();
 
-    await _client.from('group_team').insert(assignments);
-
-    
-  } catch (e) {
-    throw Exception('Error assigning teams to groups: $e');
+      await _client.from('group_team').insert(assignments);
+    } catch (e) {
+      throw Exception(
+        'Error assigning teams to groups: $e',
+      );
+    }
   }
-}
 
- Future<List<GroupTeamDto>> fetchTeamsWithGroups(int tournamentId) async {
-  try {
-    final response = await _client
-      .from('group_team')
-      .select('team_id, group_id, team(name, shield), groups(name, tournament_id)')
-      .eq('groups.tournament_id', tournamentId); 
+  Future<List<GroupTeamDto>> fetchTeamsWithGroups(
+    int tournamentId,
+  ) async {
+    try {
+      final response = await _client
+          .from('group_team')
+          .select(
+            'team_id, group_id, team(name, shield), groups(name, tournament_id)',
+          );
 
-    print('Response Supabase: $response');
+      final filter =
+          response
+              .where(
+                (item) =>
+                    item['groups']['tournament_id'] ==
+                    tournamentId,
+              )
+              .toList();
 
-    return (response as List<dynamic>)
-        .map((e) => GroupTeamDto.fromJson(e as Map<String, dynamic>))
-        .toList();
-  } catch (e) {
-    throw Exception('Error fetching teams with groups: $e');
+      print('Response Supabase: $response');
+
+      return (filter as List<dynamic>)
+          .map(
+            (e) => GroupTeamDto.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    } catch (e) {
+      throw Exception(
+        'Error fetching teams with groups: $e',
+      );
+    }
   }
-}
-
-
-
 
   // match
 
-
   // Obtener partidos por grupo
-  Future<List<MatchDto>> fetchMatchesByTournament(int tournamentId) async {
+  Future<List<MatchDto>> fetchMatchesByTournament(
+    int tournamentId,
+  ) async {
     try {
       final List<dynamic> data = await _client
           .from('match')
@@ -99,15 +122,18 @@ class GroupRemoteDatasource {
             group:group_id(id, name, tournament_id),
             home_team:home_team_id(id, name, shield),
             away_team:away_team_id(id, name, shield)
-          ''').eq('group.tournament_id', tournamentId);
+          ''')
+          .eq('group.tournament_id', tournamentId);
 
-    
+      print('Información de partidos: $data');
 
-       print('Información de partidos: $data');
-
-    return data.map((item) => MatchDto.fromJson(item)).toList();
+      return data
+          .map((item) => MatchDto.fromJson(item))
+          .toList();
     } catch (e) {
-      throw Exception('Error fetching matches by tournament: $e');
+      throw Exception(
+        'Error fetching matches by tournament: $e',
+      );
     }
   }
 
@@ -123,16 +149,19 @@ class GroupRemoteDatasource {
   // Actualizar partido
   Future<void> updateMatch(MatchFixture match) async {
     if (match.id == null) {
-      throw Exception('Match id cannot be null for update.');
+      throw Exception(
+        'Match id cannot be null for update.',
+      );
     }
     try {
-      await _client.from('match').update(match.toJson()).eq('id', match.id!);
+      await _client
+          .from('match')
+          .update(match.toJson())
+          .eq('id', match.id!);
     } catch (e) {
       throw Exception('Error updating match: $e');
     }
   }
 
   // Eliminar partido
-  
 }
-

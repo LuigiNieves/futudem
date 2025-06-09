@@ -14,10 +14,12 @@ class GroupTeamDto {
     final groupJson = json['groups'];
 
     if (teamJson == null || groupJson == null) {
-      throw Exception('Datos incompletos en GroupTeamDto: $json');
+      throw Exception(
+        'Datos incompletos en GroupTeamDto: $json',
+      );
     }
 
-     teamJson['id'] = json['team_id'];
+    teamJson['id'] = json['team_id'];
     groupJson['id'] = json['group_id'];
 
     return GroupTeamDto(
@@ -26,7 +28,9 @@ class GroupTeamDto {
     );
   }
 
-  static Map<String, List<Team>> teamsByGroup(List<GroupTeamDto> dtos) {
+  static Map<String, List<Team>> teamsByGroup(
+    List<GroupTeamDto> dtos,
+  ) {
     final Map<String, List<Team>> group = {};
 
     for (final dto in dtos) {
