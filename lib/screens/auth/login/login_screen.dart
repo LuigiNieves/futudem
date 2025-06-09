@@ -1,104 +1,158 @@
+import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:futudem_app/mock/data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:futudem_app/screens/auth/provider/auth_login_validator_provider.dart';
 import 'package:futudem_app/screens/home/home_screen.dart';
-import 'package:futudem_app/theme/app_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginnScreen extends ConsumerStatefulWidget {
+  const LoginnScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  ConsumerState<LoginnScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
+class _LoginScreenState extends ConsumerState<LoginnScreen> {
+  bool _isPasswordVisible = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  // Función para verificar las credenciales
-  void _login() {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
+  @override
+  void initState() {
+    super.initState();
+    _checkLoggedInStatus();
+  }
 
-    // Buscar si el usuario y la contraseña coinciden en la lista de usuarios
-    final usuario = usuariosRegistrados.firstWhere(
-      (user) => user['user'] == username && user['pass'] == password,
-      orElse: () => {},
-    );
+  Future<void> _checkLoggedInStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = prefs.getString('userData');
 
-    if (usuario.isNotEmpty) {
-      // Si el usuario existe y las credenciales son correctas
-      final role = usuario['rol'] ?? '';
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen(role: role)),
-      );
-    } else {
-      // Mostrar mensaje de error si las credenciales no son correctas
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Usuario o contraseña incorrectos')),
-      );
+    if (userData != null) {
+      final data = jsonDecode(userData);
+      final role = data['role'];
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(role: role),
+          ),
+        );
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final passwordValidator = ref.read(passwordValidatorProvider);
+    final emailValidator = ref.read(emailValidatorProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: const Text(
-          'FUTUDEM - LogiN',
-          style: TextStyle(color: AppColors.button),
-        ),
-      ),
-      backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        child: Center(
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Image.asset(
-                    'assets/logo.png',
-                    width: 250,
-                    height: 250,
-                  ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    
-                    TextField(
-                      controller: _usernameController,
-                      style: TextStyle(color: AppColors.inputText),
-                      cursorColor: AppColors.inputText,
-                
-                      decoration: const InputDecoration(
-                        labelText: 'Nombre de usuario',
-                        labelStyle: TextStyle(color: AppColors.labelText),
-                        focusedBorder: OutlineInputBorder(
-                        
+            child: Card(
+              child: Container(
+                padding: const EdgeInsets.all(32.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        'assets/logo.png',
+                        width: 250,
+                        height: 250,
+                      ),
+                      const SizedBox(height: 12.0),
+                      const Text(
+                        'Ingresa tus credenciales para continuar',
+                        style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 12.0),
+                      TextFormField(
+                        controller: _emailController,
+                        validator: emailValidator,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          labelText: 'Correo',
+                          hintText: 'Ingresa tu correo',
+                          prefixIcon: Icon(Icons.email_outlined),
+                          border: OutlineInputBorder(),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        labelText: 'Contraseña',
-                        labelStyle: TextStyle(color: AppColors.labelText),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: !_isPasswordVisible,
+                        validator: passwordValidator,
+                        decoration: InputDecoration(
+                          labelText: 'Contraseña',
+                          hintText: 'Ingresa tu contraseña',
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              });
+                            },
+                            icon: Icon(
+                              !_isPasswordVisible
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _login,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.button,
+                      const SizedBox(height: 12.0),
+                      ElevatedButton(
+                        onPressed: () async {
+                          final isFormValid = _formKey.currentState?.validate() ?? false;
+                          if (!isFormValid) return;
+
+                          try {
+                            final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setString(
+                              'userData',
+                              jsonEncode({
+                                'email': credential.user?.email,
+                                'uid': credential.user?.uid,
+                                'role': 'admin',
+                              }),
+                            );
+
+                            if (!mounted) return;
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomeScreen(role: 'admin'),
+                              ),
+                            );
+                          } on FirebaseAuthException catch (e) {
+                            if (e.code == 'user-not-found') {
+                              print('No user found for that email.');
+                            } else if (e.code == 'wrong-password') {
+                              print('Wrong password provided for that user.');
+                            }
+                          }
+                        },
+                        child: const Text('Iniciar sesión'),
                       ),
-                      child: const Text('Iniciar sesión'),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
         ),

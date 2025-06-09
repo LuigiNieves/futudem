@@ -1,7 +1,7 @@
 
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:futudem_app/controllers/state_player.dart';
+import 'package:futudem_app/controllers/player/state_player.dart';
 import 'package:futudem_app/models/repositories/player_repository.dart';
 import 'package:futudem_app/models/player.dart';
 
