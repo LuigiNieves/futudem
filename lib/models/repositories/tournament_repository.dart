@@ -3,7 +3,7 @@ import 'package:futudem_app/models/team.dart';
 import 'package:futudem_app/models/tournament.dart';
 
 abstract class TournamentRepository {
-  Future<void> createTournament(Tournament tournament);
+  Future<Tournament> createTournament(Tournament tournament);
   Future<void> updateTournament(int id, String name);
   Future<List<Tournament>> getTournaments();
   Future<List<Team>> getTeamByTournament(int tournamentId);

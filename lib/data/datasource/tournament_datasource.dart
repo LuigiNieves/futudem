@@ -25,9 +25,14 @@ class TournamentRemoteDatasource {
     }
   }
 
-  Future<void> createTournament(Tournament tournament) async {
+  Future<Tournament> createTournament(Tournament tournament) async {
     try {
-      await _client.from('tournament').insert(tournament.toJson());
+      final response = await _client.from('tournament').insert(tournament.toJson()).select().single();
+      if (response == null) {
+        throw Exception('Failed to create tournament');
+      }
+      print(response);
+      return Tournament.fromJson(response);
     } catch (e) {
       throw Exception('Error creating tournament: $e');
     }

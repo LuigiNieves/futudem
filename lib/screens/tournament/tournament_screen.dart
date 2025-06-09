@@ -11,28 +11,25 @@ class TournamentScreen extends ConsumerWidget {
 
   const TournamentScreen({super.key, required this.role});
 
-
-  
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
-    final tournamentcontroller = ref.watch(tournamentControllerProvider);
-
-  
-
+    final tournamentcontroller = ref.watch(
+      tournamentControllerProvider,
+    );
 
     if (tournamentcontroller.loading) {
-      return const Center(child: CircularProgressIndicator());
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
 
     if (tournamentcontroller.error.isNotEmpty) {
-      return Center(child: Text('Error: ${tournamentcontroller.error}'));
+      return Center(
+        child: Text('Error: ${tournamentcontroller.error}'),
+      );
     }
 
     final tournaments = tournamentcontroller.data;
-    
-    
 
     return Scaffold(
       appBar: AppBar(title: const Text('Torneos')),
@@ -44,22 +41,40 @@ class TournamentScreen extends ConsumerWidget {
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
               title: Text(tournament.name),
-              subtitle: Text('Fecha de inicio: ${tournament.startDate}'),
+              subtitle: Text(
+                'Fecha de inicio: ${tournament.startDate}',
+              ),
               onTap: () async {
-                ref.read(selectedTournamentIdProvider.notifier).state = tournament.id;
+                ref
+                    .read(
+                      selectedTournamentIdProvider.notifier,
+                    )
+                    .state = tournament.id;
 
-                await ref.read(tournamentControllerProvider.notifier).getTeamsByTournament(tournament.id);
-                ref.read(tournamentControllerProvider.notifier).selectedTournament(tournament);
+                await ref
+                    .read(
+                      tournamentControllerProvider.notifier,
+                    )
+                    .getTeamsByTournament(tournament.id!);
+                ref
+                    .read(
+                      tournamentControllerProvider.notifier,
+                    )
+                    .selectedTournament(tournament);
 
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => TournamentDetailScreen(
-                      teamsList: data.mockTeams,
-                      groupList: {'A': data.groupA, 'B': data.groupB},
-                      
-                      role: role, 
-                    ),
+                    builder:
+                        (_) => TournamentDetailScreen(
+                          teamsList: data.mockTeams,
+                          groupList: {
+                            'A': data.groupA,
+                            'B': data.groupB,
+                          },
+
+                          role: role,
+                        ),
                   ),
                 );
               },
@@ -67,19 +82,22 @@ class TournamentScreen extends ConsumerWidget {
           );
         },
       ),
-      floatingActionButton: role == 'admin'
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const CreateTournamentScreen(),
-                  ),
-                );
-              },
-              child: const Icon(Icons.add),
-            )
-          : null,
+      floatingActionButton:
+          role == 'admin'
+              ? FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (_) =>
+                              const CreateTournamentScreen(),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.add),
+              )
+              : null,
     );
   }
 }

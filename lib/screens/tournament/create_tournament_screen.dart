@@ -49,12 +49,11 @@ class _CreateTournamentScreenState
 
       try {
         final newTournament = Tournament(
-          id: 0, 
           name: name,
           startDate: formattedDate,
-          isActive: true,
+          isActive: false,
         );
-        // No es necesario asignar el id aquí, la base de datos lo generará automáticamente.
+        
         await ref
             .read(tournamentControllerProvider.notifier)
             .addTournament(newTournament);
