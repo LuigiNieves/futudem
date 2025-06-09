@@ -1,4 +1,3 @@
-import 'package:futudem_app/models/team.dart';
 
 class MatchFixture {
   final int? id;

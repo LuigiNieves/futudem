@@ -53,10 +53,8 @@ class TournamentController extends StateNotifier<StateTournament> {
 
       final teams = await _tournamentRepository.getTeamByTournament(tournamentId);
       state = state.copyWith(loading: false, teams: teams , tournament: state.tournament);
-      print('Equipos obtenidos: $teams - Loading: ${state.loading}');
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
-      print('Error fetching teams: $e');
     }
   }
 
@@ -67,13 +65,11 @@ class TournamentController extends StateNotifier<StateTournament> {
     try {
       
     final teams = state.teams;
-    print('Equipos del torneo: ${teams.map((team) => team.name).join(', ')}');
 
     if (teams.length < 8) {
       throw Exception('Debe haber al menos 8 equipos para iniciar el torneo');
     }
       await _tournamentRepository.startTournament(tournamentId);
-      print( 'Torneo iniciado con ID: ${state.tournament?.isActive}');
       state = state.copyWith(loading: false, error: '', tournament: state.tournament, teams: teams);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());

@@ -69,10 +69,8 @@ class TournamentRemoteDatasource {
     if (tournamentId == null) {
       throw Exception('Invalid tournament ID: $tournamentId');
     }
-    print( 'que es lo que pasa: $tournamentId');
     try {
       await _client.from('tournament').update({'active': true}).eq('id', tournamentId);
-      print( 'Tournament $tournamentId started successfully');
     } catch (e) {
       throw Exception('Error starting tournament: $e');
     }

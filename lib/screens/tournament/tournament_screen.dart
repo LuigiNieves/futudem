@@ -21,7 +21,6 @@ class TournamentScreen extends ConsumerWidget {
 
   
 
-    print('TournamentScreen: ${tournamentcontroller.loading}');
 
     if (tournamentcontroller.loading) {
       return const Center(child: CircularProgressIndicator());
@@ -34,7 +33,6 @@ class TournamentScreen extends ConsumerWidget {
     final tournaments = tournamentcontroller.data;
     
     
-    print('objects: $tournaments');
 
     return Scaffold(
       appBar: AppBar(title: const Text('Torneos')),

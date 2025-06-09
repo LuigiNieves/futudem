@@ -24,7 +24,6 @@ final PlayerRepository _playerRepository;
     // state = state.copyWith(loading: true, error: '');
     try {
       final player = await _playerRepository.fetchPlayersByCc(playerId);
-      print('Player fetched: ${player.name} ${player.lastName} ${player.id}');
       state = state.copyWith(loading: false, player: player);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());

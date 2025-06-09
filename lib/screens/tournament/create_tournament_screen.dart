@@ -55,7 +55,6 @@ class _CreateTournamentScreenState
           isActive: true,
         );
         // No es necesario asignar el id aquí, la base de datos lo generará automáticamente.
-        print('torneo newTournament: $newTournament');
         await ref
             .read(tournamentControllerProvider.notifier)
             .addTournament(newTournament);

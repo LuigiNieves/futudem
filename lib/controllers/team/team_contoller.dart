@@ -47,7 +47,6 @@ class TeamController extends StateNotifier<StateTeam> {
     state = state.copyWith(loading: true, error: '');
     try {
       final teams = await _teamRepository.fetchTeamsFromApi();
-      print( 'Teams fetched from API: $teams');
       state = state.copyWith(loading: false, teams: teams);
     } catch (e) {
       state = state.copyWith(loading: false, error: e.toString());
