@@ -85,7 +85,7 @@ class _SelectTeamsScreenState
                     await showDialog<Player>(
                       context: context,
                       builder: (context) {
-                        return PlayerDialog();
+                        return PlayerDialog(team: team);
                       },
                     );
 

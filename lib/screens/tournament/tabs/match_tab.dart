@@ -14,6 +14,14 @@ class MatchTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    if (matchesList.isEmpty) {
+      return const Center(
+        child: Text('El torneo no ha comenzado'),
+      );
+    }
+
+
     return ListView(
       children: matchesList.entries.map((entry) {
         return ExpansionTile(
@@ -33,6 +41,7 @@ class MatchTab extends ConsumerWidget {
                               child: Text(
                                 match.homeTeam?.name ?? '',
                                 textAlign: TextAlign.end,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             const SizedBox(width: 8),

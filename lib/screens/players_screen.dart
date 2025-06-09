@@ -39,15 +39,15 @@ class _MyPlayersTabState extends State<MyPlayersTab> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           
-          final newPlayer = await showDialog<Player>(
-            context: context,
-            builder: (BuildContext context) {
-              return const PlayerDialog(); 
-            },
-          );
-          if (newPlayer != null) {
-            _addPlayer(newPlayer);
-          }
+          // final newPlayer = await showDialog<Player>(
+          //   context: context,
+          //   builder: (BuildContext context) {
+          //     return const PlayerDialog(); 
+          //   },
+          // );
+          // if (newPlayer != null) {
+          //   _addPlayer(newPlayer);
+          // }
         },
         tooltip: 'Agregar jugador',
         child: const Icon(Icons.add),
