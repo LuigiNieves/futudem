@@ -12,6 +12,20 @@ class Tournament {
     required this.isActive,
   });
 
+  Tournament copyWith({
+    int? id,
+    String? name,
+    String? startDate,
+    bool? isActive,
+  }) {
+    return Tournament(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      isActive: isActive ?? this.isActive,
+    );
+  }
+
   factory Tournament.fromJson(Map<String, dynamic> json) {
 
     return Tournament(

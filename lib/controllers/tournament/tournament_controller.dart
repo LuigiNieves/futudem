@@ -86,7 +86,13 @@ class TournamentController
   }
 
   Future<void> startTournament(int tournamentId) async {
-    state = state.copyWith(loading: true, error: '');
+
+    state = state.copyWith(
+      loading: true,
+      error: '',
+      tournament: state.tournament?.copyWith(isActive: true),
+    );
+
 
     try {
       final teams = state.teams;

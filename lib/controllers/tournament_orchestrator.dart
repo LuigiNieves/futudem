@@ -13,6 +13,7 @@ class TournamentOrchestrator {
     final groupController = ref.read(groupControllerProvider.notifier);
     final tournamentId = ref.read(selectedTournamentIdProvider);
 
+
     print( "Starting tournament with ID: $tournamentId");
 
     await tournamentController.startTournament(tournamentId!);
