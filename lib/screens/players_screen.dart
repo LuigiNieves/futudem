@@ -29,8 +29,8 @@ class _MyPlayersTabState extends State<MyPlayersTab> {
           return ListTile(
             leading: const Icon(Icons.person),
             title: Text(player.name),
-            subtitle: Text('${player.career} - ${player.id}'),
-            trailing: player.isApproved
+            subtitle: Text('${player.name} - ${player.id}'),
+            trailing: player.name.isNotEmpty
                 ? const Icon(Icons.check_circle, color: Colors.green)
                 : const Icon(Icons.hourglass_top, color: Colors.orange),
           );

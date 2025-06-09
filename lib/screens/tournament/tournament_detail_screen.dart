@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:futudem_app/models/relations/group_team_dto.dart';
+import 'package:futudem_app/models/relations/match_fixture_dto.dart';
 import 'package:futudem_app/models/team.dart';
-import 'package:futudem_app/models/match.dart';
+import 'package:futudem_app/providers/group_provider.dart';
 import 'package:futudem_app/providers/tournament_team_provider.dart';
-import 'package:futudem_app/screens/tournament/tabs/finals_tab.dart';
 import 'package:futudem_app/screens/tournament/tabs/groups_tab.dart';
 import 'package:futudem_app/screens/tournament/tabs/match_tab.dart';
 import 'package:futudem_app/screens/tournament/tabs/teams_tab.dart';
@@ -12,16 +13,14 @@ import 'package:futudem_app/screens/tournament/tabs/teams_tab.dart';
 class TournamentDetailScreen extends ConsumerStatefulWidget {
   final List<Team> teamsList;
   final Map<String, List<dynamic>> groupList;
-  final Map<String, List<Match>> matchList;
-  final List<Match> finalMatches;
+  // final Map<String, List<Match>> matchList;
+  // final List<Match> finalMatches;
   final String role;
 
   const TournamentDetailScreen({
     super.key,
     required this.teamsList,
     required this.groupList,
-    required this.matchList,
-    required this.finalMatches,
     required this.role,
   });
 
@@ -31,8 +30,37 @@ class TournamentDetailScreen extends ConsumerStatefulWidget {
 
 class _TournamentDetailScreenState extends ConsumerState<TournamentDetailScreen> {
   @override
+  void initState() {
+    super.initState();
+
+    final tournament = ref.read(tournamentControllerProvider).tournament;
+    final tournamentId = tournament?.id;
+
+    if (tournamentId != null) {
+      // Llamamos al fetch en una microtarea para evitar errores del ciclo de vida
+      Future.microtask(() {
+        ref.read(groupControllerProvider.notifier).fetchTeamsWithGroups(tournamentId);
+        ref.read(groupControllerProvider.notifier).loadGroups(tournamentId);
+        ref.read(groupControllerProvider.notifier).loadMatches(tournamentId);
+      });
+    }
+
+
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final teamsList = ref.watch(tournamentTeamControllerProvider).teams;
+    
+    final groupState = ref.watch(groupControllerProvider);
+    final tournamentTeamState = ref.watch(tournamentControllerProvider);
+
+    final isActive = tournamentTeamState.tournament?.isActive ?? false;
+    final groups = GroupTeamDto.teamsByGroup(groupState.groupTeams);
+
+    final matches = MatchDto.matchesByGroup(groupState.matches);
+
+    
+
     final List<Tab> tabs = [];
     final List<Widget> tabViews = [];
 
@@ -42,13 +70,13 @@ class _TournamentDetailScreenState extends ConsumerState<TournamentDetailScreen>
     }
 
     tabs.add(const Tab(text: "Grupos"));
-    tabViews.add(GroupsTab(grupos: widget.groupList));
+    tabViews.add(GroupsTab(group: groups, isActive: isActive));
 
     tabs.add(const Tab(text: "Partidos"));
-    tabViews.add(MatchTab(matchesList: widget.matchList, role: widget.role));
+    tabViews.add(MatchTab(matchesList: matches, role: widget.role));
 
-    tabs.add(const Tab(text: "Finales"));
-    tabViews.add(FinalsTab(finalMatches: widget.finalMatches, role: widget.role));
+    // tabs.add(const Tab(text: "Finales"));
+    // tabViews.add(FinalsTab(finalMatches: widget.finalMatches, role: widget.role));
 
     return DefaultTabController(
       length: tabs.length,

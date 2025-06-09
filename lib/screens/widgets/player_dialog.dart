@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:futudem_app/models/player.dart';
+import 'package:futudem_app/validator/validator.dart';
 
 class PlayerDialog extends StatefulWidget {
   const PlayerDialog({super.key});
@@ -9,33 +10,40 @@ class PlayerDialog extends StatefulWidget {
 }
 
 class _PlayerDialogState extends State<PlayerDialog> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _idController = TextEditingController();
-  final TextEditingController _careerController = TextEditingController();
   
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text('Agregar Jugador'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Nombre'),
-          ),
-          TextField(
-            controller: _idController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(labelText: 'Cedula'),
-          ),
-          TextField(
-            controller: _careerController,
-            decoration: const InputDecoration(labelText: 'Carrera'),
-          ),
-          
-        ],
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _idController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Cedula'),
+              validator: validarCedula,
+            ),
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Nombre'),
+              validator: validarNombre,     
+            ),
+            TextFormField(
+              controller: _lastNameController,
+              decoration: const InputDecoration(labelText: 'Apellido'),
+              validator: validarApellido,
+            ),
+
+          ],
+        ),
       ),
       actions: [
         TextButton(
@@ -46,22 +54,19 @@ class _PlayerDialogState extends State<PlayerDialog> {
         ),
         TextButton(
           onPressed: () {
-            final age = int.tryParse(_idController.text);
-            if (_nameController.text.isEmpty ||
-                _idController.text.isEmpty ||
-                _careerController.text.isEmpty ||
-                age == null) {
+            
+            if (!_formKey.currentState!.validate()) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(content: Text('Por favor, complete todos los campos')),
               );
               return;
             }
             final newPlayer = Player(
-              id: _idController.text,
+              id: int.parse(_idController.text),
               name: _nameController.text,
-              career: _careerController.text,
-              isApproved: false,
+              lastName: _lastNameController.text,
             );
+            
             Navigator.of(context).pop(newPlayer); 
           },
           child: const Text('Aceptar'),

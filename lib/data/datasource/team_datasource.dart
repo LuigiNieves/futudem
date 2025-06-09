@@ -6,26 +6,24 @@ class TeamRemoteDatasource {
 
   
 
-  Future<List<Team>> fetchAllTeams() async {
+  Future<List<Team>> getAllTeams() async {
     try {
       final List<dynamic> data = await _client
           .from('team')
           .select('id, name, shield');
-           print('Data fetched from DB: $data');
       return data.map((item) => Team.fromJson(item)).toList();
     } catch (e) {
       throw Exception('Error fetching teams: $e');
     }
-  }
+}
 
-  Future<void> addTeamsToTournament(int tournamentId, List<Team> teams) async {
+  Future<void> addTeamToTournament(int tournamentId, int teamId, int captainId) async {
   try {
-    final List<Map<String, dynamic>> tournamentTeamEntries = teams.map((team) {
-      return {
-        'tournament_id': tournamentId,
-        'team_id': team.id,
-      };
-    }).toList();
+    final  tournamentTeamEntries = {
+      'tournament_id': tournamentId,
+      'team_id': teamId,
+      'captain_id': captainId ,
+    };
 
     await _client.from('tournament_team').insert(tournamentTeamEntries);
   } catch (e) {
@@ -53,11 +51,8 @@ class TeamRemoteDatasource {
   }
 
   Future<void> updateTeam(Team team) async {
-    if (team.id == null) {
-      throw Exception('Team id cannot be null for update.');
-    }
     try {
-      await _client.from('team').update(team.toMap()).eq('id', team.id!);
+      await _client.from('team').update(team.toMap()).eq('id', team.id);
     } catch (e) {
       throw Exception('Error updating team: $e');
     }

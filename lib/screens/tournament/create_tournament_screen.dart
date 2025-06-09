@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:futudem_app/models/tournament.dart';
 import 'package:futudem_app/providers/selected_date_provider.dart';
-import 'package:futudem_app/providers/tournament_list_provider.dart';
+import 'package:futudem_app/providers/tournament_team_provider.dart';
 import '../widgets/date_picker_field.dart';
 
 class CreateTournamentScreen
@@ -52,6 +52,7 @@ class _CreateTournamentScreenState
           id: 0, 
           name: name,
           startDate: formattedDate,
+          isActive: true,
         );
         // No es necesario asignar el id aquí, la base de datos lo generará automáticamente.
         print('torneo newTournament: $newTournament');

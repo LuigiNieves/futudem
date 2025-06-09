@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:futudem_app/models/match.dart';
-import 'package:futudem_app/screens/widgets/match_dialog.dart';
+import 'package:futudem_app/models/relations/match_fixture_dto.dart';
 
 class MatchTab extends StatefulWidget {
-  final Map<String, List<Match>> matchesList;
+  final Map<String, List<MatchDto>> matchesList;
   final String role;
 
   const MatchTab({super.key, required this.matchesList, required this.role});
+  
 
   @override
   State<MatchTab> createState() => _MatchTabState();
 }
+
 
 class _MatchTabState extends State<MatchTab> {
   @override
@@ -34,20 +35,20 @@ class _MatchTabState extends State<MatchTab> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        match.homeTeam.name,
+                                        match.homeTeam?.name ?? '',
                                         textAlign: TextAlign.end,
                                       ),
                                     ),
                                     const SizedBox(width: 8),
                                     Image.network(
                                       match.homeTeam.shield,
-                                      width: 32,
+                                      width: 20,
                                       height: 20,
                                       fit: BoxFit.cover,
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      '${match.homeGoals ?? '-'} vs ${match.awayGoals ?? '-'}',
+                                      '${match.match.homeGoals ?? '-'} vs ${match.match.awayGoals ?? '-'}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -55,7 +56,7 @@ class _MatchTabState extends State<MatchTab> {
                                     const SizedBox(width: 8),
                                     Image.network(
                                       match.awayTeam.shield,
-                                      width: 32,
+                                      width: 20,
                                       height: 20,
                                       fit: BoxFit.cover,
                                     ),
@@ -70,23 +71,23 @@ class _MatchTabState extends State<MatchTab> {
                                       IconButton(
                                         icon: const Icon(Icons.edit, size: 20),
                                         onPressed: () async {
-                                          final updatedMatch =
-                                              await showDialog<Match>(
-                                                context: context,
-                                                builder:
-                                                    (context) => MatchDialog(
-                                                      match: match,
-                                                    ),
-                                              );
-                                          if (updatedMatch != null) {
-                                            setState(() {
-                                              match.homeGoals =
-                                                  updatedMatch.homeGoals;
-                                              match.awayGoals =
-                                                  updatedMatch.awayGoals;
-                                              match.date = updatedMatch.date;
-                                            });
-                                          }
+                                          // final updatedMatch =
+                                          //     await showDialog<Match>(
+                                          //       context: context,
+                                          //       builder:
+                                          //           (context) => MatchDialog(
+                                          //             match: match,
+                                          //           ),
+                                          //     );
+                                          // if (updatedMatch != null) {
+                                          //   setState(() {
+                                          //     // match.match.homeGoals =
+                                          //     //     updatedMatch.homeGoals;
+                                          //     // match.match.awayGoals =
+                                          //     //     updatedMatch.awayTeamGoals;
+                                          //     // match.date = updatedMatch.date;
+                                          //   });
+                                          // }
                                         },
                                       ),
                                   ],
@@ -96,8 +97,8 @@ class _MatchTabState extends State<MatchTab> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            match.date != null
-                                ? 'Fecha: ${match.date!.toString().split(' ')[0]}'
+                            match.match.matchDate != null
+                                ? 'Fecha: ${match.match.matchDate!.toString().split(' ')[0]}'
                                 : 'Fecha: pendiente',
                             style: const TextStyle(fontSize: 12),
                           ),

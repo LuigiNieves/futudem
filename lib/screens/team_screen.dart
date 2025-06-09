@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:futudem_app/mock/data.dart' as data;
 import 'package:futudem_app/models/team.dart';
+import 'package:futudem_app/providers/team_provider.dart';
 import 'package:futudem_app/providers/tournament_team_provider.dart';
 
 class TeamScreen extends ConsumerStatefulWidget {
@@ -22,6 +22,7 @@ class _TeamScreenState extends ConsumerState<TeamScreen> {
       setState(() {
         teams.add(
           Team(
+            id: DateTime.now().millisecondsSinceEpoch, // Simulación de ID
             name: result['name']!,
             shield: 'https://cdn-icons-png.flaticon.com/512/197/197484.png',
           ),
@@ -30,24 +31,25 @@ class _TeamScreenState extends ConsumerState<TeamScreen> {
     }
   }
 
-  void _startTournament() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('¡Torneo iniciado!')),
-    );
-    // Lógica real de torneo iría aquí
-  }
+  // void _startTournament() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('¡Torneo iniciado!')),
+  //   );
+  //   // Lógica real de torneo iría aquí
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final tournamentTeamState = ref.watch(tournamentTeamControllerProvider);
+    final teamState = ref.watch(teamControllerProvider);
+    teams = teamState.teams;
 
-    if (tournamentTeamState.loading) {
+    if (teamState.loading) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (tournamentTeamState.error.isNotEmpty) {
-      return Center(child: Text('Error: ${tournamentTeamState.error}'));
+    if (teamState.error.isNotEmpty) {
+      return Center(child: Text('Error: ${teamState.error}'));
     }
-    if (tournamentTeamState.teams.isEmpty) {
+    if (teamState.teams.isEmpty) {
       return const Center(child: Text('No hay equipos disponibles'));
     }
 

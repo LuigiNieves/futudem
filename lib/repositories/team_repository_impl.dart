@@ -1,21 +1,27 @@
 
 import 'package:futudem_app/data/datasource/team_datasource.dart';
+import 'package:futudem_app/data/datasource/team_datasource_api.dart';
 import 'package:futudem_app/models/repositories/team_repository.dart';
 import 'package:futudem_app/models/team.dart';
 
 class TeamRepositoryImpl implements TeamRepository {
   final TeamRemoteDatasource _datasource;
+  final TeamDatasourceApi _apiDatasource;
 
-  TeamRepositoryImpl(this._datasource);
+  TeamRepositoryImpl(this._datasource, this._apiDatasource);
 
   @override
-  Future<List<Team>> fetchAllTeams() async {
-    return await _datasource.fetchAllTeams();
+  Future<List<Team>> getAllTeams() async {
+    return await _datasource.getAllTeams();
+  }
+
+  Future<List<Team>> fetchTeamsFromApi() async {
+    return await _apiDatasource.fetchTeams();
   }
 
   @override
-  Future<void> addTeamsToTournament(int tournamentId, List<Team> teams) {
-    return _datasource.addTeamsToTournament(tournamentId, teams);
+  Future<void> addTeamToTournament(int tournamentId, int teamId, int captainId) {
+    return _datasource.addTeamToTournament(tournamentId, teamId, captainId);
   }
 
   @override
@@ -39,7 +45,7 @@ class TeamRepositoryImpl implements TeamRepository {
   }
 
   @override
-  Future<List<Team>> getTeamsByTournament(int tournamentId) {
+  Future<List<Team>> getTeamByTournament(int tournamentId) {
     return _datasource.getTeamsByTournament(tournamentId);
   }
 }

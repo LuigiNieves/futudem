@@ -27,7 +27,7 @@ class TournamentRemoteDatasource {
 
   Future<void> createTournament(Tournament tournament) async {
     try {
-      await _client.from('tournament').insert(tournament.toMap());
+      await _client.from('tournament').insert(tournament.toJson());
     } catch (e) {
       throw Exception('Error creating tournament: $e');
     }
@@ -38,7 +38,7 @@ class TournamentRemoteDatasource {
       throw Exception('Tournament id cannot be null for update.');
     }
     try {
-      await _client.from('tournament').update(tournament.toMap()).eq('id', tournament.id!);
+      await _client.from('tournament').update(tournament.toJson()).eq('id', tournament.id!);
     } catch (e) {
       throw Exception('Error updating tournament: $e');
     }
@@ -54,19 +54,29 @@ class TournamentRemoteDatasource {
 
 
   Future<List<Team>> fetchTeamsByTournament(int tournamentId) async {
-  try {
-    final List<dynamic> data = await _client
-        .from('tournament_team')
-        .select('team(id, name, logo_url)') // join implícito con la tabla team
-        .eq('tournament_id', tournamentId);
+    try {
+      final List<dynamic> data = await _client
+          .from('tournament_team')
+          .select('team(id, name, shield)') // join implicit with team table
+          .eq('tournament_id', tournamentId);
+      return data.map((item) => Team.fromJson(item['team'])).toList();
+    } catch (e) {
+      throw Exception('Error fetching teams by tournament: $e');
+    }
+  } 
 
-    // extraemos los datos de la relación
-    return data.map((item) => Team.fromJson(item['team'])).toList();
-  } catch (e) {
-    throw Exception('Error fetching teams by tournament ID: $e');
+  Future<void> startTournament(int tournamentId) async {
+    if (tournamentId == null) {
+      throw Exception('Invalid tournament ID: $tournamentId');
+    }
+    print( 'que es lo que pasa: $tournamentId');
+    try {
+      await _client.from('tournament').update({'active': true}).eq('id', tournamentId);
+      print( 'Tournament $tournamentId started successfully');
+    } catch (e) {
+      throw Exception('Error starting tournament: $e');
+    }
   }
-}
-
 
 
 

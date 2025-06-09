@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1068811887207",
+    "project_id": "futudem",
+    "storage_bucket": "futudem.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068811887207:android:30bb611eaf102e24392ac2",
+        "android_client_info": {
+          "package_name": "com.example.futudem_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWTXfZqrpRUrYsNDWEc3M1e8MzpxpVDcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

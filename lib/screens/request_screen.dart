@@ -28,21 +28,21 @@ class _RequestScreenState extends State<RequestScreen> {
             margin: EdgeInsets.all(8),
             child: ListTile(
               title: Text(player.name),
-              subtitle: Text(player.career),
+              subtitle: Text(player.name),
               trailing: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(player.isApproved == true ? 'Aprobado' : 'Pendiente'),
-                  if (!player.isApproved)
+                  Text(player.name.isEmpty == true ? 'Aprobado' : 'Pendiente'),
+                  if (!player.name.isEmpty)
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
                           icon: Icon(Icons.check_circle, color: Colors.green),
                           onPressed: () {
-                            setState(() {
-                              player.isApproved = true; 
-                              rejectionReasons[player.id] = '';
+                              setState(() {
+                                // player.name.isNotEmpty= true; 
+                                // rejectionReasons[player.id] = '';
                             });
                           },
                         ),
@@ -95,8 +95,8 @@ class _RequestScreenState extends State<RequestScreen> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  player.isApproved = false; // Rechazar
-                  rejectionReasons[player.id] = reasonController.text;
+                  // player.name.isEmpty = false; // Rechazar
+                  // rejectionReasons[player.id] = reasonController.text;
                 });
                 Navigator.pop(context);
               },

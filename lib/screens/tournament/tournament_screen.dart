@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:futudem_app/mock/data.dart' as data;
 import 'package:futudem_app/providers/selected_tournament_provider.dart';
-import 'package:futudem_app/providers/tournament_list_provider.dart';
+import 'package:futudem_app/providers/tournament_team_provider.dart';
 import 'package:futudem_app/screens/tournament/create_tournament_screen.dart';
 import 'package:futudem_app/screens/tournament/tournament_detail_screen.dart';
 
@@ -11,19 +11,29 @@ class TournamentScreen extends ConsumerWidget {
 
   const TournamentScreen({super.key, required this.role});
 
+
+  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tournamentState = ref.watch(tournamentControllerProvider);
+    
+    final tournamentcontroller = ref.watch(tournamentControllerProvider);
 
-    if (tournamentState.loading) {
+  
+
+    print('TournamentScreen: ${tournamentcontroller.loading}');
+
+    if (tournamentcontroller.loading) {
       return const Center(child: CircularProgressIndicator());
     }
 
-    if (tournamentState.error.isNotEmpty) {
-      return Center(child: Text('Error: ${tournamentState.error}'));
+    if (tournamentcontroller.error.isNotEmpty) {
+      return Center(child: Text('Error: ${tournamentcontroller.error}'));
     }
 
-    final tournaments = tournamentState.data;
+    final tournaments = tournamentcontroller.data;
+    
+    
     print('objects: $tournaments');
 
     return Scaffold(
@@ -37,8 +47,11 @@ class TournamentScreen extends ConsumerWidget {
             child: ListTile(
               title: Text(tournament.name),
               subtitle: Text('Fecha de inicio: ${tournament.startDate}'),
-              onTap: () {
+              onTap: () async {
                 ref.read(selectedTournamentIdProvider.notifier).state = tournament.id;
+
+                await ref.read(tournamentControllerProvider.notifier).getTeamsByTournament(tournament.id);
+                ref.read(tournamentControllerProvider.notifier).selectedTournament(tournament);
 
                 Navigator.push(
                   context,
@@ -46,8 +59,7 @@ class TournamentScreen extends ConsumerWidget {
                     builder: (_) => TournamentDetailScreen(
                       teamsList: data.mockTeams,
                       groupList: {'A': data.groupA, 'B': data.groupB},
-                      matchList: data.jornadasMap,
-                      finalMatches: data.mockKnockoutMatches,
+                      
                       role: role, 
                     ),
                   ),
@@ -73,3 +85,4 @@ class TournamentScreen extends ConsumerWidget {
     );
   }
 }
+// This screen displays a list of tournaments and allows admins to create new tournaments.
